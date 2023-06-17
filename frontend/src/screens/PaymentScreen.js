@@ -1,46 +1,16 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Form, Button} from 'react-bootstrap'
-import { useDispatch, useSelector} from 'react-redux'
-import FormContainer from '../components/FormContainer'
-import CheckoutSteps from '../components/CheckoutSteps'
-// import { savePaymentMethod } from '../actions/cartActions'
+import React from 'react';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import PaymentPage from '../components/PaymentPage';
 
-function PaymentScreen() {
-    const cart = useSelector(state=> state.cart)
-    const { shippingAddress } = cart
+const stripePromise = loadStripe('pk_test_51NJVlgK7OSOLxLoxDdqP99eSfNHNEBWnlyaC3PFZZusZ17FRXOM7rT1ebMCA06ThRrv8JQVHm8gPDQy1qLgDryhA00w53sa8dS');
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    const [paymentMethod, setPaymentMethod] = useState('Stripe')
-
-    if(!shippingAddress.address){
-        navigate('/shipping')
-    }
-
-    const submitHandler = (e) =>{
-        e.preventDefault()
-        // dispatch(savePaymentMethod(paymentMethod))
-        navigate('/placeorder')
-    }
+const PaymentScreen = () => {
   return (
-    <FormContainer>
-        <CheckoutSteps step1 step2 />
+    <Elements stripe={stripePromise}>
+      <PaymentPage />
+    </Elements>
+  );
+};
 
-        <Form onSubmit={submith}>
-            <Form.Group>
-                <Form.Label>
-                    
-                </Form.Label>
-            </Form.Group>
-
-            <Button type='submit' variant='primary'>
-                Continue
-            </Button>
-        </Form>
-    </FormContainer>
-  )
-}
-
-export default PaymentScreen
+export default PaymentScreen;
