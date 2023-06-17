@@ -21,5 +21,14 @@ h3{
   width: 100%;
 }
 
+.pay-btn{
+  width:200px;
+}
 
+.pay-btn:hover{
+  opacity: 60%;
+}
 
+.product-img{
+  height:300px;
+}

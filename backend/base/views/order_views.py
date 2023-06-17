@@ -17,7 +17,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def create_payment(request):
     # Retrieve the total amount from the request
     body = request.body.decode('utf-8')
+    print(body)
     data = json.loads(body)
+    print(data)
     amount = data.get('amount')
     print(amount)  # or any other method to get the amount
 
