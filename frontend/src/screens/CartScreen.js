@@ -90,6 +90,9 @@ function CartScreen() {
                         </ListGroup.Item>)}
                 </ListGroup>
                 }
+                <Link to ='/' className="d-flex justify-content-center mt-4">
+                <Button>Continue Shopping</Button>
+                </Link>
         </Col>
         <Col md={4}>
             <Card>

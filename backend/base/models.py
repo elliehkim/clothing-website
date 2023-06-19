@@ -21,8 +21,6 @@ class Product(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    paymentMethod = models.CharField(max_length=200, null=True, blank=True)
-    taxPrice = models.DecimalField(max_digits=7, decimal_places=2)
     shippingPrice = models.DecimalField(max_digits=7, decimal_places=2)
     totalPrice = models.DecimalField(max_digits=7, decimal_places=2)
     isPaid = models.BooleanField(default=False)
@@ -33,7 +31,7 @@ class Order(models.Model):
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
-        return str(self.createdAt)
+        return str(self._id)
     
 
 class OrderItem(models.Model):
@@ -54,7 +52,6 @@ class ShippingAddress(models.Model):
     address = models.CharField(max_length=200, null=True, blank=True)
     city = models.CharField(max_length=200, null=True, blank=True)
     postcode = models.CharField(max_length=200, null=True, blank=True)
-    shippingPrice = models.DecimalField(max_digits=7, decimal_places=2)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):

@@ -23,7 +23,21 @@ function Header() {
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
+            <Nav className='m-auto'>
+                <LinkContainer to ='/about'>
+                <Nav.Link>About</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to ='/men'>
+                <Nav.Link>Men</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to ='/women'>
+                <Nav.Link>Women</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to ='/contact'>
+                <Nav.Link>Contact</Nav.Link>
+                </LinkContainer>
+            </Nav>
+            <Nav className="justify-content-end">
                 <LinkContainer to ='/cart'>
                 <Nav.Link><i className='fas fa-shopping-cart'></i>Cart</Nav.Link>
                 </LinkContainer>
