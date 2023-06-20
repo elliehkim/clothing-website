@@ -18,6 +18,8 @@ const CheckoutForm = () => {
     cart.shippingPrice = (cart.itemsPrice>100? 0: 10).toFixed(2)
     cart.totalPrice= (Number(cart.itemsPrice)+ Number(cart.shippingPrice)).toFixed(2)
 
+    const userLogin = useSelector(state=> state.userLogin)
+    const { userInfo } = userLogin
 
     const stripe = useStripe();
     const elements = useElements();
@@ -60,35 +62,27 @@ const CheckoutForm = () => {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      
-      // setIsLoading(true);
-
-      dispatch(createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        totalPrice: cart.totalPrice,
-    }))
   
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          // Make sure to change this to your payment completion page
           return_url: 'http://localhost:3000/order-complete/',
           receipt_email: email,
         },
-      });
+      })
+      .then(dispatch(createOrder({
+              orderItems: cart.cartItems,
+              shippingAddress: cart.shippingAddress,
+              itemsPrice: cart.itemsPrice,
+              shippingPrice: cart.shippingPrice,
+              totalPrice: cart.totalPrice,
+              isPaid:true,
+              paidAt: new Date()})))
 
-      if (error.type === "card_error" || error.type === "validation_error") {
+      if (error) {
         setMessage(error.message);
-      } else {
-        setMessage("An unexpected error occurred.");
       }
-  
-      // setIsLoading(false);
-
-    };
+      }
   
     const paymentElementOptions = {
       layout: "tabs"

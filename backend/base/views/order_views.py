@@ -1,6 +1,6 @@
 #! /usr/bin/env python3.6
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse ,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -39,6 +39,37 @@ def create_payment(request):
         'clientSecret': intent.client_secret
     })
 
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.headers.get('stripe-signature')
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        )
+
+        print("Received event:", event)
+        data = event['data']
+        event_type = event['type']
+
+        # Process the event based on its type
+        if event_type == 'payment_intent.succeeded':
+            # Handle successful payment event
+            payment_intent = event['data']['object']
+            # Update your order status or perform other actions
+            print('Payment for {} succeeded'.format(payment_intent['amount']))
+        
+        return HttpResponse(status=200)
+        # Return a response to acknowledge the event was handled
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def addOrderItems(request):
@@ -53,7 +84,9 @@ def addOrderItems(request):
         order = Order.objects.create(
             user= user,
             shippingPrice= data['shippingPrice'],
-            totalPrice= data['totalPrice']
+            totalPrice= data['totalPrice'],
+            isPaid = data['isPaid'],
+            paidAt = data['paidAt']
         )
 
         # Create Shipping
