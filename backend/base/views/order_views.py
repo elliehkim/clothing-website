@@ -6,11 +6,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from datetime import datetime
 
 import json
 import stripe
 
-from base.models import Product,Order,OrderItem,ShippingAddress
+from base.models import Product,Order,OrderItem,ShippingAddress, User
 from base.serializers import OrderSerializer
 
 
@@ -31,7 +32,16 @@ def create_payment(request):
     # Create a payment intent on Stripe
     intent = stripe.PaymentIntent.create(
         amount=int(amount),
-        currency='nzd'
+        currency='nzd',
+        metadata={
+        'order_items': data.get('order_items'),
+        'shipping_address': data.get('shipping_address'),
+        'items_price':data.get('items_price'),
+        'shipping_price':data.get('shipping_price'),
+        'total_price':data.get('total_price'),
+        'user': data.get('user'),
+        # Add any other metadata you want to pass
+    },
     )
 
     # Return the client secret (used in the frontend)
@@ -57,9 +67,43 @@ def stripe_webhook(request):
         if event_type == 'payment_intent.succeeded':
             # Handle successful payment event
             payment_intent = event['data']['object']
-            # Update your order status or perform other actions
-            print('Payment for {} succeeded'.format(payment_intent['amount']))
-        
+            amount = payment_intent['amount']
+            order_items = json.loads(payment_intent['metadata']['order_items'])
+            shipping_address = json.loads(payment_intent['metadata']['shipping_address'])
+            shipping_price = payment_intent['metadata']['shipping_price']
+            total_price = payment_intent['metadata']['total_price']
+            user_id = payment_intent['metadata']['user']
+            print('Payment Intent Received: ', amount, order_items, shipping_address, total_price, user_id )
+
+            order = Order.objects.create(
+                user= User.objects.get(id=user_id),
+                shippingPrice= shipping_price,
+                totalPrice= total_price,
+                isPaid = True,
+                paidAt =  datetime.now(),
+            )
+            shipping = ShippingAddress.objects.create(
+            order= order,
+            address= shipping_address['address'],
+            city= shipping_address['city'],
+            postcode= shipping_address['postcode']
+            )
+            
+            for i in order_items:
+                product = Product.objects.get(_id=i['product'])
+
+                item = OrderItem.objects.create(
+                    product= product,
+                    order= order,
+                    name= product.name,
+                    qty= i['qty'],
+                    price= i['price'],
+                    image= product.image.url,
+                )
+
+            # Update stock
+                product.countInStock -= item.qty
+                product.save()
         return HttpResponse(status=200)
         # Return a response to acknowledge the event was handled
     except ValueError as e:
@@ -69,52 +113,6 @@ def stripe_webhook(request):
         # Invalid signature
         return HttpResponse(status=400)
 
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def addOrderItems(request):
-    user = request.user
-    data = request.data
-    orderItems = data['orderItems']
-
-    if orderItems and len(orderItems)==0:
-        return Response({'detail': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        # Create Order
-        order = Order.objects.create(
-            user= user,
-            shippingPrice= data['shippingPrice'],
-            totalPrice= data['totalPrice'],
-            isPaid = data['isPaid'],
-            paidAt = data['paidAt']
-        )
-
-        # Create Shipping
-        shipping = ShippingAddress.objects.create(
-            order= order,
-            address= data['shippingAddress']['address'],
-            city= data['shippingAddress']['city'],
-            postcode= data['shippingAddress']['postcode']
-        )
-
-        # Create orderItems
-        for i in orderItems:
-            product = Product.objects.get(_id=i['product'])
-
-            item = OrderItem.objects.create(
-                product= product,
-                order= order,
-                name= product.name,
-                qty= i['qty'],
-                price= i['price'],
-                image= product.image.url,
-            )
-
-            # Update stock
-            product.countInStock -= item.qty
-            product.save()
-        serializer = OrderSerializer(order, many=False)
-        return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

@@ -1,13 +1,14 @@
 import React, { useState, useEffect }  from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { Row, Col, ListGroup, Image, Button } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadStripe } from '@stripe/stripe-js';
+import { Container } from 'react-bootstrap'
 
 import CheckoutForm from '../components/CheckoutForm';
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
-import {ORDER_CREATE_RESET} from '../constants/orderConstants'
+
 
 
 const stripePromise = loadStripe('pk_test_51NJVlgK7OSOLxLoxDdqP99eSfNHNEBWnlyaC3PFZZusZ17FRXOM7rT1ebMCA06ThRrv8JQVHm8gPDQy1qLgDryhA00w53sa8dS');
@@ -23,19 +24,28 @@ const PaymentScreen = () => {
   
   const total_amount = cart.totalPrice*100
   const [clientSecret, setClientSecret] = useState("");
-  const dispatch = useDispatch()
+
+  const userLogin = useSelector(state=> state.userLogin)
+  const { userInfo } = userLogin
 
   useEffect(() => {
       // Create PaymentIntent as soon as the page loads
     fetch("/api/orders/create_payment_intent/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({amount:total_amount}),
+      body: JSON.stringify({
+        amount:total_amount,
+        order_items: JSON.stringify(cart.cartItems),
+        shipping_address: JSON.stringify(cart.shippingAddress),
+        items_price: cart.itemsPrice,
+        shipping_price: cart.shippingPrice,
+        total_price: cart.totalPrice,
+        user: userInfo._id,
+      }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
 
-      dispatch({type: ORDER_CREATE_RESET})
   }, []);
     
   const appearance = {
@@ -47,6 +57,7 @@ const PaymentScreen = () => {
   };
   
   return (
+    <Container className='py-4'>
     <div className='m-3'>
       <CheckoutSteps step1 step2/>
       <Row>
@@ -120,6 +131,7 @@ const PaymentScreen = () => {
         </ListGroup.Item>
       </ListGroup>
     </div>
+    </Container>
   );
 };
 

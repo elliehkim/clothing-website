@@ -10,7 +10,13 @@ from base.serializers import ProductSerializer
 @api_view(['GET'])
 @permission_classes([])
 def getProducts(request):
-    products = Product.objects.all()
+    query_params = request.query_params
+    query = query_params.get('keyword')
+    print(query_params, query)
+    if query is None or query.lower() == 'null':
+        products= Product.objects.all()
+    else:
+        products = Product.objects.filter(name__icontains=query)
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 

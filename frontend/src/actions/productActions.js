@@ -14,7 +14,26 @@ export const listProducts = () => async( dispatch ) =>{
     try{
         dispatch({type: PRODUCT_LIST_REQUEST})
 
-        const {data} = await axois.get("/api/products/")
+        const {data} = await axois.get(`/api/products/`)
+
+        dispatch({
+            type: PRODUCT_LIST_SUCCESS,
+            payload : data
+        })
+    }catch(error){
+        dispatch({
+            type:PRODUCT_LIST_FAIL,
+            payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+        })
+    }
+
+}
+
+export const searchedProducts = ( keyword='' ) => async( dispatch ) =>{
+    try{
+        dispatch({type: PRODUCT_LIST_REQUEST})
+
+        const {data} = await axois.get(`/api/products?keyword=${keyword}`)
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,

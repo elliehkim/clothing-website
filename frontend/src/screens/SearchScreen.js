@@ -6,29 +6,28 @@ import Product from '../components/Product'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { useSearchParams } from 'react-router-dom'
-import { listProducts } from '../actions/productActions'
+import { searchedProducts } from '../actions/productActions'
 
-function HomeScreen() {
+function SearchScreen() {
     const dispatch = useDispatch()
     const productList = useSelector(state => state.productList)
     const {error, loading, products} = productList
 
+    const [searchParams, setSearchParams] = useSearchParams()
+    let keyword = searchParams.get('keyword')
+
+    console.log(keyword)
 
     useEffect(()=>{
-        dispatch(listProducts())
+        dispatch(searchedProducts(keyword))
 
         
-    },[dispatch])
-
+    },[dispatch, keyword])
   return (
-    <>
-    <img className="header-image" src={"/images/hero.png"} />
     <Container className='py-3'>
-        <h1>Latest Products</h1>
-
         {loading ? <Loader />
             : error? <Message variant='danger'>{error}</Message>
-            : 
+            : products && products.length > 0  ? 
             <Row>
                 {products.map(product => (
                     <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -36,10 +35,13 @@ function HomeScreen() {
                     </Col>
                 ))}
             </Row>
+            :
+            <div className='d-flex justify-content-center'>
+                <p className='mt-4 fs-4'>Not found</p>
+            </div>
         }
     </Container>
-    </>
   )
 }
 
-export default HomeScreen
+export default SearchScreen

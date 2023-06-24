@@ -1,4 +1,3 @@
-import { Container } from 'react-bootstrap'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import Header from './components/Header'
@@ -13,13 +12,14 @@ import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import OrderScreen from './screens/OrderScreen'
 import OrderCompleteScreen from './screens/OrderCompleteScreen'
+import SearchScreen from './screens/SearchScreen'
 
 function App() {
   return (
     <Router>
       <Header />
-      <main className='py-3'>
-        <Container>
+      <main>
+        <div>
           <Routes>
           <Route path='/' element={<HomeScreen />} exact/>
           <Route path='/login' element={<LoginScreen />} />
@@ -31,8 +31,9 @@ function App() {
           <Route path='/order-complete' element={<OrderCompleteScreen />} />
           <Route path='/product/:id' element={<ProductScreen />}/>
           <Route path='/cart/:id?' element={<CartScreen />}/>
+          <Route path='/search' element={<SearchScreen />}/>
           </Routes>
-        </Container>
+        </div>
       </main>
       <Footer />
     </Router>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card, Form } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import { listProductsDetails } from '../actions/productActions'
@@ -24,6 +25,7 @@ function ProductScreen({props}){
     }
 
   return (
+    <Container className='py-4'>
     <div>
         <Link to='/' className='btn btn-light my-3'> Go Back</Link>
 
@@ -106,6 +108,7 @@ function ProductScreen({props}){
         </Row>
         }
     </div>
+    </Container>
   )
 }
 

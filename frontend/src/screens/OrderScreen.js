@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, ListGroup, Image, Button } from 'react-bootstrap'
 import { Link, useParams, useNavigate} from 'react-router-dom'
-import { LinkContainer } from 'react-router-bootstrap'
+import { Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderDetails } from '../actions/orderActions'
 import Message from '../components/Message'
@@ -33,6 +33,7 @@ function OrderScreen() {
 
 
   return (
+    <Container className='py-4'>
     <div>
     {loading ? (
       <Loader />
@@ -96,6 +97,7 @@ function OrderScreen() {
     </>
     )}
     </div>
+    </Container>
   )
 }
 

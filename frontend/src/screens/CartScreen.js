@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Container } from 'react-bootstrap'
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector} from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
@@ -40,6 +41,7 @@ function CartScreen() {
     }
     
   return (
+    <Container className='py-4'>
     <Row>
         <Col md={8}>
             <h1>Shopping Cart</h1>
@@ -117,6 +119,7 @@ function CartScreen() {
             </Card>
         </Col>
     </Row>
+    </Container>
   )
 }
 
