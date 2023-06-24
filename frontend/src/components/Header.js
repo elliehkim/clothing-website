@@ -2,8 +2,10 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navbar, Nav, Container, Row, NavDropdown} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap'
+import { NavLink } from 'react-router-dom'
 import SearchBox from './SearchBox'
 import { logout}from '../actions/userActions'
+
 
 function Header() {
 
@@ -26,41 +28,19 @@ function Header() {
             <Navbar.Collapse id="basic-navbar-nav">
             <SearchBox />
             <Nav className='m-auto'>
-                <NavDropdown title={"Men"} id='men'>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> T-Shirt </NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> Shirt </NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> Pants </NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> Jacket </NavDropdown.Item>
-                        </LinkContainer>
-                </NavDropdown>
-                <NavDropdown title={"Women"} id='women'>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> Top </NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> Dress </NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> Pants </NavDropdown.Item>
-                        </LinkContainer>
-                        <LinkContainer to ='/profile'>
-                            <NavDropdown.Item> Jacket </NavDropdown.Item>
-                        </LinkContainer>
-                </NavDropdown>
+                <LinkContainer to ='/men' className='me-2'>
+                <Nav.Link>Men</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to ='/women' className='me-2'>
+                <Nav.Link>Women</Nav.Link>
+                </LinkContainer>
             </Nav>
             <Nav>
                 <LinkContainer to ='/about' className='me-2'>
-                <Nav.Link>About</Nav.Link>
+                    <Nav.Link>About</Nav.Link>
                 </LinkContainer>
                 <LinkContainer to ='/contact' className='me-2'>
-                <Nav.Link>Contact</Nav.Link>
+                    <Nav.Link>Contact</Nav.Link>
                 </LinkContainer>
                 <LinkContainer to ='/cart'>
                 <Nav.Link className='me-2'><i className='fas fa-shopping-cart fa-xl'></i></Nav.Link>

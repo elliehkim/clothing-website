@@ -1,34 +1,38 @@
-main{
-  min-height:80vh;
+main {
+  min-height: 80vh;
 }
 
-h1{
+h1 {
   font-size: 1.8rem;
   padding: 1rem 0;
 }
 
-h2{
+h2 {
   font-size: 1.4rem;
   padding: 0.5rem 0;
 }
 
-h3{
+h3 {
   padding: 1rem 0;
 }
 
-
-.button-block{
+.button-block {
   min-width: 100%;
   width: 100%;
 }
 
-.header-image{
-    width:100%;
-    height:350px;
+.header-image {
+  width: 100%;
+  height: 350px;
 }
 
+.product-image{
+  width:150px;
+  height:300px;
+}
 
-#payment-form{
+/* Payment */
+#payment-form {
   width: 65vw;
   min-width: 500px;
   align-self: center;
@@ -80,6 +84,20 @@ h3{
 }
 
 .paynow-btn:hover {
-  opacity: 60%;;
+  opacity: 60%;
 }
 
+
+/* Product Page */
+.products .left {
+  flex: 1;
+  position: sticky;
+}
+
+.products .inputItem{
+  margin-bottom:10px;
+}
+
+.products .inputItem label{
+  margin-left:10px;
+}

@@ -13,6 +13,10 @@ import PaymentScreen from './screens/PaymentScreen'
 import OrderScreen from './screens/OrderScreen'
 import OrderCompleteScreen from './screens/OrderCompleteScreen'
 import SearchScreen from './screens/SearchScreen'
+import MenScreen from './screens/MenScreen'
+import WomenScreen from './screens/WomenScreen'
+import AboutScreen from './screens/AboutScreen'
+import ContactScreen from './screens/ContactScreen'
 
 function App() {
   return (
@@ -32,6 +36,10 @@ function App() {
           <Route path='/product/:id' element={<ProductScreen />}/>
           <Route path='/cart/:id?' element={<CartScreen />}/>
           <Route path='/search' element={<SearchScreen />}/>
+          <Route path='/men' element={<MenScreen />}/>
+          <Route path='/women' element={<WomenScreen />}/>
+          <Route path='/about' element={<AboutScreen />}/>
+          <Route path='/contact' element={<ContactScreen />}/>
           </Routes>
         </div>
       </main>
