@@ -5,16 +5,18 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import SearchBox from './SearchBox'
 import { logout}from '../actions/userActions'
-
+import { useNavigate } from 'react-router-dom'
 
 function Header() {
 
     const userLogin = useSelector(state=>state.userLogin)
     const { userInfo } = userLogin
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const logoutHandler = () => {
         dispatch(logout())
+        navigate('/')
     }
 
   return (

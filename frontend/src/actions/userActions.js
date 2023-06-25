@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
 import {
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
@@ -60,7 +59,7 @@ export const logout = () => (dispatch) => {
     dispatch({type:USER_LOGOUT})
     dispatch({type:USER_DETAILS_RESET})
     dispatch({type:ORDER_LISTS_RESET})
-    dispatch({type:ORDER_DETAILS_RESET})    
+    dispatch({type:ORDER_DETAILS_RESET}) 
 }
 
 
