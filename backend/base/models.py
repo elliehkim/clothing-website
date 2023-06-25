@@ -2,12 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+CATEGORIES_CHOICE = (
+    ('Top', 'Top'),
+    ('T-shirt', 'T-shirt'),
+    ('Shirt', 'Shirt'),
+    ('Pants','Pants'),
+    ('Dress','Dress'),
+    ('Jacket','Jacket'),
+)
 
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
-    category = models.CharField(max_length=200, null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=(('men', 'Men'), ('women', 'Women')),null=True)
+    category = models.CharField(max_length=200, choices=CATEGORIES_CHOICE, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     countInStock = models.IntegerField(null=True, blank= True, default=0)

@@ -38,7 +38,7 @@ function RegisterScreen() {
         }
     }
   return (
-    <FormContainer>
+    <FormContainer className='py-3'>
         <h1>Sign Up</h1>
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}

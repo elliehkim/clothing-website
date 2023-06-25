@@ -9,6 +9,7 @@ import { listProductsDetails } from '../actions/productActions'
 
 function ProductScreen({props}){
     const [qty, setQty] = useState(1)
+    const [size, setSize] = useState('s')
 
     const { id } = useParams();
     const dispatch = useDispatch()
@@ -21,7 +22,7 @@ function ProductScreen({props}){
     },[dispatch])
 
     const addToCartHandler = () =>{
-        navigate(`/cart/${id}?qty=${qty}`)
+        navigate(`/cart/${id}?qty=${qty}&size=${size}`)
     }
 
   return (
@@ -59,6 +60,23 @@ function ProductScreen({props}){
                                 <Col>Price: </Col>
                                 <Col>
                                     <strong>${product.price}</strong>
+                                </Col>
+                            </Row>
+                        </ListGroup.Item>
+
+                        <ListGroup.Item>
+                            <Row>
+                                <Col>Size: </Col>
+                                <Col xs='auto' className='my-1'>
+                                <Form.Control 
+                                as="select" 
+                                value={size}
+                                onChange={(e)=>setSize(e.target.value)}>
+                                    <option value="s">S</option>
+                                    <option value="m">M</option>
+                                    <option value="l">L</option>
+                                    <option value="xl">XL</option>
+                                </Form.Control>
                                 </Col>
                             </Row>
                         </ListGroup.Item>

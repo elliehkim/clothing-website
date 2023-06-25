@@ -2,7 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework import status
+from django.http import JsonResponse
+from django.db.models import Q
 
 from base.models import Product
 from base.serializers import ProductSerializer
@@ -26,3 +27,40 @@ def getProduct(request, pk):
     product = Product.objects.get(_id=pk)
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([])
+def getFilteredProducts(request):
+    gender = request.GET.get('gender')
+    categories = request.GET.getlist('categories[]')
+    min_price = request.GET.get('minPrice')
+    max_price = request.GET.get('maxPrice')
+    sort_by = request.GET.get('sortBy')
+
+    # Filter the products based on the provided parameters
+    queryset = Product.objects.filter(gender=gender)
+
+    if categories:
+        queryset = queryset.filter(category__in=categories)
+    
+    elif categories:
+        queryset = queryset.filter(category__in=categories)
+
+
+    if min_price:
+        queryset = queryset.filter(price__gte=min_price)
+
+    if max_price:
+        queryset = queryset.filter(price__lte=max_price)
+
+    if sort_by:
+        if sort_by == 'lowest':
+            queryset = queryset.order_by('price')
+        elif sort_by == 'highest':
+            queryset = queryset.order_by('-price')
+        elif sort_by == 'newest':
+            queryset = queryset.order_by('-createdAt')
+
+    serializer = ProductSerializer(queryset, many=True)
+    return JsonResponse(serializer.data, safe=False)

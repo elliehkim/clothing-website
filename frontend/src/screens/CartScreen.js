@@ -8,8 +8,7 @@ import { addToCart, removeFromCart } from '../actions/cartActions'
 function CartScreen() {
     const { id } = useParams()
     const productId = id
-    const { search } = useLocation()
-    const qty = search ? Number(search.split("=")[1]) :1
+    const location = useLocation()
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -20,11 +19,15 @@ function CartScreen() {
     const userLogin = useSelector(state=> state.userLogin)
     const { userInfo } = userLogin
 
+    const queryParams = new URLSearchParams(location.search);
+    const qty = queryParams.get('qty') ? Number(queryParams.get('qty')) : 1;
+    const size = queryParams.get('size');
+
     useEffect (() =>{
         if(productId){
-            dispatch(addToCart(productId, qty))
+            dispatch(addToCart(productId, qty, size))
         }
-    },[dispatch, productId, qty])  
+    },[dispatch, productId, qty, size])  
     
 
     const removeFromCartHandler= (id) =>{
@@ -49,6 +52,29 @@ function CartScreen() {
                     Your Cart is empty <Link to ='/'>Go back</Link>
                 </Message>
                 : <ListGroup variant='flush'>
+                    <ListGroup.Item>
+                            <Row>
+                                <Col md={2}>
+                                </Col>
+                                <Col md={3}>
+                                  <h6>Product</h6>
+                                </Col>
+                                <Col md={2}>
+                                    <h6>Price</h6>
+                                </Col>
+
+                                <Col md={2}>
+                                   <h6>Size</h6>
+                                </Col>
+
+                                <Col md={2}>
+                                    <h6>Qty</h6>
+                                </Col>
+
+                                <Col md={1}>
+                                </Col>
+                            </Row>
+                        </ListGroup.Item>
                     {cartItems.map(item =>
                         <ListGroup.Item key={item.product}>
                             <Row>
@@ -62,11 +88,15 @@ function CartScreen() {
                                     $ {item.price}
                                 </Col>
 
-                                <Col md={3}>
+                                <Col md={2}>
+                                    {(item.size).toUpperCase()}
+                                </Col>
+
+                                <Col md={2}>
                                 <Form.Control 
                                     as="select" 
                                     value={item.qty} 
-                                    onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}>
+                                    onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value), item.size))}>
                                     {
 
                                         [...Array(item.countInStock).keys()].map((x) => ( 

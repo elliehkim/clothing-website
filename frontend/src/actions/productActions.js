@@ -1,4 +1,4 @@
-import axois from 'axios'
+import axios from 'axios'
 import {
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS,
@@ -14,7 +14,7 @@ export const listProducts = () => async( dispatch ) =>{
     try{
         dispatch({type: PRODUCT_LIST_REQUEST})
 
-        const {data} = await axois.get(`/api/products/`)
+        const {data} = await axios.get(`/api/products/`)
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
@@ -33,7 +33,7 @@ export const searchedProducts = ( keyword='' ) => async( dispatch ) =>{
     try{
         dispatch({type: PRODUCT_LIST_REQUEST})
 
-        const {data} = await axois.get(`/api/products?keyword=${keyword}`)
+        const {data} = await axios.get(`/api/products?keyword=${keyword}`)
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
@@ -52,7 +52,7 @@ export const listProductsDetails = (id) => async( dispatch ) =>{
     try{
         dispatch({type: PRODUCT_DETAILS_REQUEST})
 
-        const {data} = await axois.get(`/api/products/${id}`)
+        const {data} = await axios.get(`/api/products/${id}`)
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
@@ -66,3 +66,41 @@ export const listProductsDetails = (id) => async( dispatch ) =>{
     }
 
 }
+
+
+export const listFilterProducts = (gender, categories, minPrice, maxPrice, sortBy) => async (dispatch) => {
+    try {
+      dispatch({ type: PRODUCT_LIST_REQUEST });
+
+      const params = new URLSearchParams();
+
+
+
+      params.append('gender',gender);
+      if (categories.length > 0) {
+        categories.forEach((category) => {
+          params.append('categories[]', category);
+        });
+      }
+      params.append('minPrice', minPrice);
+      params.append('maxPrice', maxPrice);
+      params.append('sortBy', sortBy);
+
+      const queryParams = params.toString();
+      const { data } = await axios.get(`/api/products/filter/?${queryParams}`);
+
+  
+      dispatch({
+        type: PRODUCT_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_LIST_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
