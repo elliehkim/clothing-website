@@ -101,3 +101,27 @@ h3 {
 .products .inputItem label{
   margin-left:10px;
 }
+
+
+.contact-form{
+  width:70%;
+  margin:auto;
+}
+
+.contact-form input[type="text"],
+
+.contact-form input[type="email"],
+
+.contact-form textarea {
+
+  width: 100%;
+
+  padding: 20px;
+
+  margin-bottom: 10px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 4px;
+
+}

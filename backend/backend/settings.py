@@ -164,6 +164,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email Query
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'AKIAXB7J7AJPSY3WBVVT'
+EMAIL_HOST_PASSWORD = 'BI8Evh2KGZnryYdddYDUT12ppEf77vUgZDS3s6NwKCdD'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

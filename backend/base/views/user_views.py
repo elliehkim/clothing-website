@@ -12,6 +12,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth.hashers import make_password
 
+from django.core.mail import send_mail
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -83,3 +85,22 @@ def getUserProfile(request):
     user = request.user
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([])
+def contact(request):
+
+    if request.method == 'POST':
+
+        data = request.data
+        subject = "Website Inquiry" 
+        body = {
+                'name': data['name'], 
+                'email': data['email'], 
+                'message': data['message'], 
+            }
+        message = "\n".join(body.values())
+        send_mail(subject, message, 'ellie93kim@gmail.com', ['ellie93kim@gmail.com'])
+
+        return Response({'message': 'Thank you. Your enquiry has been received.'})
