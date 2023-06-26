@@ -13,7 +13,7 @@ from base.serializers import ProductSerializer
 def getProducts(request):
     query_params = request.query_params
     query = query_params.get('keyword')
-    print(query_params, query)
+    
     if query is None or query.lower() == 'null':
         products= Product.objects.all()
     else:

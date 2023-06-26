@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
+import pytz
 
 import json
 import stripe
@@ -16,18 +17,14 @@ from base.serializers import OrderSerializer
 
 
 
-# This is your test secret API key.
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @csrf_exempt
 def create_payment(request):
     # Retrieve the total amount from the request
     body = request.body.decode('utf-8')
-    print(body)
     data = json.loads(body)
-    print(data)
     amount = data.get('amount')
-    print(amount)  # or any other method to get the amount
 
     # Create a payment intent on Stripe
     intent = stripe.PaymentIntent.create(
@@ -40,11 +37,9 @@ def create_payment(request):
         'shipping_price':data.get('shipping_price'),
         'total_price':data.get('total_price'),
         'user': data.get('user'),
-        # Add any other metadata you want to pass
     },
     )
 
-    # Return the client secret (used in the frontend)
     return JsonResponse({
         'clientSecret': intent.client_secret
     })
@@ -54,16 +49,17 @@ def stripe_webhook(request):
     payload = request.body
     sig_header = request.headers.get('stripe-signature')
 
+    current_time = datetime.now(pytz.utc)
+    nzst = pytz.timezone('Pacific/Auckland')
+
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
 
-        print("Received event:", event)
         data = event['data']
         event_type = event['type']
 
-        # Process the event based on its type
         if event_type == 'payment_intent.succeeded':
             # Handle successful payment event
             payment_intent = event['data']['object']
@@ -80,7 +76,7 @@ def stripe_webhook(request):
                 shippingPrice= shipping_price,
                 totalPrice= total_price,
                 isPaid = True,
-                paidAt =  datetime.now(),
+                paidAt = current_time.astimezone(nzst),
             )
             shipping = ShippingAddress.objects.create(
             order= order,
@@ -101,16 +97,11 @@ def stripe_webhook(request):
                     image= product.image.url,
                 )
 
-            # Update stock
-                product.countInStock -= item.qty
-                product.save()
         return HttpResponse(status=200)
-        # Return a response to acknowledge the event was handled
+    
     except ValueError as e:
-        # Invalid payload
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
         return HttpResponse(status=400)
 
 

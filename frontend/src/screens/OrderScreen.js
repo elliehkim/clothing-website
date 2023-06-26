@@ -5,8 +5,7 @@ import { Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderDetails } from '../actions/orderActions'
 import Message from '../components/Message'
-import Loader from '../components/Loader'
-import  {ORDER_DETAILS_RESET} from '../constants/orderConstants'
+
 
 
 function OrderScreen() {
@@ -32,7 +31,7 @@ function OrderScreen() {
   }, [dispatch, id, navigate, userInfo]);
 
   if (!userInfo) {
-    return null; // or display a message indicating that the user is not logged in
+    return null; 
   }
 
   if (!isOrderLoaded || loading) {

@@ -59,11 +59,10 @@ const CheckoutForm = () => {
           return_url: 'http://localhost:3000/order-complete/',
           receipt_email: email,
         },
-      }).then(() => {
-        // Clear cartItems in Redux and local storage
-        dispatch({ type: CART_CLEAR_ITEMS });
-        localStorage.removeItem('cartItems');
-      });
+      })
+      .then(dispatch({ type: CART_CLEAR_ITEMS }))
+      .then(localStorage.removeItem('cartItems'))
+
 
       if (error) {
         setMessage(error.message);

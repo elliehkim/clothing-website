@@ -85,12 +85,11 @@ function ProductScreen({props}){
                             <Row>
                                 <Col>Status: </Col>
                                 <Col>
-                                    {product.countInStock > 0? 'In Stock' : 'Out of Stock'}
+                                     In Stock
                                 </Col>
                             </Row>
                         </ListGroup.Item>
 
-                    {product.countInStock > 0 && (
                     <ListGroup.Item>
                         <Row>
                             <Col>Qty</Col>
@@ -101,18 +100,17 @@ function ProductScreen({props}){
                                     onChange={(e) => setQty(e.target.value)}>
                                     {
 
-                                        [...Array(product.countInStock).keys()].map((x) => ( 
-                                                <option key={x + 1} value={x + 1}> 
-                                                {x + 1} 
-                                                </option>
-                                            ))
+                                    [...Array(20).keys()].map((x) => (
+                                        <option key={x + 1} value={x + 1}>
+                                        {x + 1}
+                                        </option>
+                                    ))
                                     }
 
                                 </Form.Control>
                             </Col>
                         </Row>
                     </ListGroup.Item>
-                    )}
 
                         <ListGroup.Item>
                             <Button 

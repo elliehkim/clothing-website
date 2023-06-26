@@ -19,7 +19,6 @@ class Product(models.Model):
     category = models.CharField(max_length=200, choices=CATEGORIES_CHOICE, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2)
-    countInStock = models.IntegerField(null=True, blank= True, default=0)
     createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
