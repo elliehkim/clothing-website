@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-2bu#1o^gf(9-txn=x$t)@5h6qhpllxxs&vefovt5r9pff)o^p8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1','clothing-website-dev.us-west-2.elasticbeanstalk.com', '172.31.9.18', '35.163.214.166']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','clothing-website-dev.us-west-2.elasticbeanstalk.com']
 
 
 
@@ -140,16 +140,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-        'default': {
-            'ENGINE':'django.db.backends.postgresql_psycopg2',
-            'NAME': 'ebdb',
-            'USER': 'postgres',
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': '5432',
-        }
-}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -169,13 +160,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Email Query
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -193,21 +178,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_S3_ACCESS_KEY_ID = os.environ['AWS_S3_ACCESS_KEY_ID']
-AWS_S3_SECRET_ACCESS_KEY = os.enviroon['AWS_S3_SECRET_ACCESS_KEY']
-
-AWS_STORAGE_BUCKET_NAME = 'clothing-website-s3'
-AWS_S3_REGION_NAME = 'us-west-2'
-
-
-AWS_DEFAULT_ACL = None
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
-AWS_LOCATION = 'static'
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 
 
