@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-2bu#1o^gf(9-txn=x$t)@5h6qhpllxxs&vefovt5r9pff)o^p8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1',' 34.217.73.59','ec2-34-217-73-59.us-west-2.compute.amazonaws.com' ]
+ALLOWED_HOSTS = ['localhost','127.0.0.1','clothing-website-dev.us-west-2.elasticbeanstalk.com']
 
 
 # Application definition
@@ -60,9 +60,9 @@ REST_FRAMEWORK = {
 }
 STRIPE_PUBLIC_KEY = 'pk_test_51NJVlgK7OSOLxLoxDdqP99eSfNHNEBWnlyaC3PFZZusZ17FRXOM7rT1ebMCA06ThRrv8JQVHm8gPDQy1qLgDryhA00w53sa8dS'
 
-STRIPE_SECRET_KEY = 'sk_test_51NJVlgK7OSOLxLox9XUhPkqgSLDDEG6OAY9xiDTYsKGTY5a8Og7fZK83FZHV2TgF1ixBp4lN8Ly5SlIqZwqFS3EZ002CK9HPbz'
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 
-STRIPE_WEBHOOK_SECRET = 'whsec_008f877625c9909afe7b8f59ee509904a4e7cac7421fa4f158e638053484adf4'
+STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
@@ -139,15 +139,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-
-DATABASES = {
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+            'default': {
+                'ENGINE':'django.db.backends.postgresql_psycopg2',
+                'NAME': os.environ['RDS_DB_NAME'],
+                'USER': os.environ['RDS_USERNAME'],
+                'PASSWORD': os.environ['RDS_PASSWORD'],
+                'HOST': os.environ['RDS_HOSTNAME'],
+                'PORT': os.environ['RDS_PORT'],
+            }
+        }
+else:
+    DATABASES = {
         'default': {
-            'ENGINE':'django.db.backends.postgresql_psycopg2',
-            'NAME': 'ebdb',
-            'USER': 'postgres',
-            'PASSWORD': 'ellie123',
-            'HOST': 'awseb-e-zvycdyp2ie-stack-awsebrdsdatabase-6uucz3g81prh.cwdqltyr9i6g.us-west-2.rds.amazonaws.com',
-            'PORT': '5432',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
@@ -175,8 +182,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'AKIAXB7J7AJPSY3WBVVT'
-EMAIL_HOST_PASSWORD = 'BI8Evh2KGZnryYdddYDUT12ppEf77vUgZDS3s6NwKCdD'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
