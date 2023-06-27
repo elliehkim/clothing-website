@@ -145,8 +145,8 @@ DATABASES = {
             'ENGINE':'django.db.backends.postgresql_psycopg2',
             'NAME': 'ebdb',
             'USER': 'postgres',
-            'PASSWORD': 'ellie123',
-            'HOST': 'awseb-e-zvycdyp2ie-stack-awsebrdsdatabase-6uucz3g81prh.cwdqltyr9i6g.us-west-2.rds.amazonaws.com',
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
             'PORT': '5432',
         }
 }
@@ -174,8 +174,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'AKIAXB7J7AJPSY3WBVVT'
-EMAIL_HOST_PASSWORD = 'BI8Evh2KGZnryYdddYDUT12ppEf77vUgZDS3s6NwKCdD'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -196,8 +196,8 @@ USE_TZ = True
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_S3_ACCESS_KEY_ID = 'AKIAXB7J7AJP7D6CBGPL'
-AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_S3_ACCESS_KEY_ID = os.environ['AWS_S3_ACCESS_KEY_ID']
+AWS_S3_SECRET_ACCESS_KEY = os.enviroon['AWS_S3_SECRET_ACCESS_KEY']
 
 AWS_STORAGE_BUCKET_NAME = 'clothing-website-s3'
 AWS_S3_REGION_NAME = 'us-west-2'
