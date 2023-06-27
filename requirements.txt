@@ -29,6 +29,7 @@ migrate==0.3.8
 paramiko==3.2.0
 pathspec==0.10.1
 Pillow==9.5.0
+psycopg2==2.9.1
 pyasn1==0.5.0
 pycparser==2.21
 PyJWT==2.7.0
