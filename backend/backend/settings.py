@@ -144,7 +144,12 @@ EMAIL_HOST_PASSWORD = 'BI8Evh2KGZnryYdddYDUT12ppEf77vUgZDS3s6NwKCdD'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+}
 
 
 # Password validation
@@ -183,10 +188,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-
-
-
-
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
