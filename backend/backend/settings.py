@@ -215,7 +215,7 @@ STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
-  os.path.join(BASE_DIR, "build/static"),
+  os.path.join(BASE_DIR, "static/build"),
 ]
 
 MEDIA_URL = '/images/'
