@@ -61,9 +61,9 @@ REST_FRAMEWORK = {
 }
 STRIPE_PUBLIC_KEY = 'pk_test_51NJVlgK7OSOLxLoxDdqP99eSfNHNEBWnlyaC3PFZZusZ17FRXOM7rT1ebMCA06ThRrv8JQVHm8gPDQy1qLgDryhA00w53sa8dS'
 
-STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+STRIPE_SECRET_KEY = 'sk_test_51NJVlgK7OSOLxLox9XUhPkqgSLDDEG6OAY9xiDTYsKGTY5a8Og7fZK83FZHV2TgF1ixBp4lN8Ly5SlIqZwqFS3EZ002CK9HPbz'
 
-STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
+STRIPE_WEBHOOK_SECRET = 'whsec_008f877625c9909afe7b8f59ee509904a4e7cac7421fa4f158e638053484adf4'
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
@@ -139,29 +139,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_USER = 'AKIAXB7J7AJPSY3WBVVT'
+EMAIL_HOST_PASSWORD = 'BI8Evh2KGZnryYdddYDUT12ppEf77vUgZDS3s6NwKCdD'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-if 'RDS_DB_NAME' in os.environ:
-    DATABASES = {
-            'default': {
-                'ENGINE':'django.db.backends.postgresql_psycopg2',
-                'NAME': os.environ['RDS_DB_NAME'],
-                'USER': os.environ['RDS_USERNAME'],
-                'PASSWORD': os.environ['RDS_PASSWORD'],
-                'HOST': os.environ['RDS_HOSTNAME'],
-                'PORT': os.environ['RDS_PORT'],
-            }
-        }
-else:
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
+}
 
 
 # Password validation
@@ -199,25 +187,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-if 'AWS_STORAGE_BUCKET_NAME' in os.environ:
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    
-    AWS_S3_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_S3_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
-    AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
-
-    AWS_DEFAULT_ACL = None
-    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-   
-    AWS_LOCATION = 'static'
-    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-
-
-else:
-    STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
