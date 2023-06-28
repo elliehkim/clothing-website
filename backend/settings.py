@@ -106,7 +106,7 @@ SIMPLE_JWT = {
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware"
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -122,7 +122,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend/react_build')],
+        'DIRS': [os.path.join(BASE_DIR, 'react_build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -210,16 +210,16 @@ else:
 
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
-  os.path.join(BASE_DIR, "frontend/react_build/static"),
-  os.path.join(BASE_DIR, "frontend/react_build"),
+  os.path.join(BASE_DIR, "react_build/static"),
+  os.path.join(BASE_DIR, "react_build"),
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_URL = '/images/'
 
-MEDIA_ROOT =  os.path.join(BASE_DIR,"frontend/react_build/images")
+MEDIA_ROOT =  os.path.join(BASE_DIR,"react_build/images")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
