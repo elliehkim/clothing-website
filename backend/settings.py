@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-2bu#1o^gf(9-txn=x$t)@5h6qhpllxxs&vefovt5r9pff)o^p8
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -210,14 +210,14 @@ else:
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
   os.path.join(BASE_DIR, "frontend/react_build/static"),
+  os.path.join(BASE_DIR, "frontend/public/images"),
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
 MEDIA_URL = '/images/'
 
-MEDIA_ROOT =  os.path.join(BASE_DIR,"frontend/react_build/images")
+MEDIA_ROOT =  os.path.join(BASE_DIR,"frontend/public/images")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
