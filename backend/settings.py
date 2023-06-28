@@ -211,14 +211,15 @@ else:
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
   os.path.join(BASE_DIR, "frontend/react_build/static"),
-  os.path.join(BASE_DIR, "frontend/public"),
+  os.path.join(BASE_DIR, "frontend/react_build"),
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/images/'
 
-MEDIA_ROOT =  os.path.join(BASE_DIR,"frontend/public/images")
+MEDIA_ROOT =  os.path.join(BASE_DIR,"frontend/react_build/images")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
