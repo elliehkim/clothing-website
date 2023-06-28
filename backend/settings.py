@@ -106,6 +106,7 @@ SIMPLE_JWT = {
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware"
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -210,7 +211,7 @@ else:
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
   os.path.join(BASE_DIR, "frontend/react_build/static"),
-  os.path.join(BASE_DIR, "frontend/public/images"),
+  os.path.join(BASE_DIR, "frontend/public"),
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
