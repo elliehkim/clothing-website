@@ -61,9 +61,9 @@ REST_FRAMEWORK = {
 }
 STRIPE_PUBLIC_KEY = 'pk_test_51NJVlgK7OSOLxLoxDdqP99eSfNHNEBWnlyaC3PFZZusZ17FRXOM7rT1ebMCA06ThRrv8JQVHm8gPDQy1qLgDryhA00w53sa8dS'
 
-STRIPE_SECRET_KEY = 'sk_test_51NJVlgK7OSOLxLox9XUhPkqgSLDDEG6OAY9xiDTYsKGTY5a8Og7fZK83FZHV2TgF1ixBp4lN8Ly5SlIqZwqFS3EZ002CK9HPbz'
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 
-STRIPE_WEBHOOK_SECRET = 'whsec_008f877625c9909afe7b8f59ee509904a4e7cac7421fa4f158e638053484adf4'
+STRIPE_WEBHOOK_SECRET = os.environ['STRIPE_WEBHOOK_SECRET']
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
@@ -141,16 +141,28 @@ EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'AKIAXB7J7AJPSY3WBVVT'
-EMAIL_HOST_PASSWORD = 'BI8Evh2KGZnryYdddYDUT12ppEf77vUgZDS3s6NwKCdD'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-DATABASES = {
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+            'default': {
+                'ENGINE':'django.db.backends.postgresql_psycopg2',
+                'NAME': 'ebdb',
+                'USER': 'postgres',
+                'PASSWORD': os.environ['RDS_PASSWORD'],
+                'HOST': os.environ['RDS_HOSTNAME'],
+                'PORT': '5432',
+            }
+        }
+else:
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-}
+    }
 
 
 # Password validation
