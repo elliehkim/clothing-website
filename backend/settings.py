@@ -121,7 +121,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -192,12 +192,12 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
   # Tell Django where to look for React's static files (css, js)
-  os.path.join(BASE_DIR, "static/build"),
+  os.path.join(BASE_DIR, "frontend/build/static"),
 ]
 
 MEDIA_URL = '/images/'
 
-MEDIA_ROOT = 'static/images'
+MEDIA_ROOT =  os.path.join(BASE_DIR,"frontend/build/images")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
