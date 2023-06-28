@@ -59,6 +59,7 @@ REST_FRAMEWORK = {
          'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
 STRIPE_PUBLIC_KEY = 'pk_test_51NJVlgK7OSOLxLoxDdqP99eSfNHNEBWnlyaC3PFZZusZ17FRXOM7rT1ebMCA06ThRrv8JQVHm8gPDQy1qLgDryhA00w53sa8dS'
 
 STRIPE_SECRET_KEY = 'sk_test_51NJVlgK7OSOLxLox9XUhPkqgSLDDEG6OAY9xiDTYsKGTY5a8Og7fZK83FZHV2TgF1ixBp4lN8Ly5SlIqZwqFS3EZ002CK9HPbz'
@@ -186,7 +187,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 
 STATIC_URL = '/static/'
 
