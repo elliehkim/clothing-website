@@ -145,24 +145,13 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-if 'RDS_HOSTNAME' in os.environ:
-    DATABASES = {
-            'default': {
-                'ENGINE':'django.db.backends.postgresql_psycopg2',
-                'NAME': 'ebdb',
-                'USER': 'postgres',
-                'PASSWORD': os.environ['RDS_PASSWORD'],
-                'HOST': os.environ['RDS_HOSTNAME'],
-                'PORT': '5432',
-            }
-        }
-else:
-    DATABASES = {
+
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
+}
 
 
 # Password validation
