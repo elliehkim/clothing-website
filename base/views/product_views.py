@@ -43,10 +43,6 @@ def getFilteredProducts(request):
 
     if categories:
         queryset = queryset.filter(category__in=categories)
-    
-    elif categories:
-        queryset = queryset.filter(category__in=categories)
-
 
     if min_price:
         queryset = queryset.filter(price__gte=min_price)
